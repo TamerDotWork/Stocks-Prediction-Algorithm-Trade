@@ -95,7 +95,7 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 
-@app.route('/', methods=['GET'])
+@app.route('http://35.226.176.177/', methods=['GET'])
 def home():
     return train['Close']
 
