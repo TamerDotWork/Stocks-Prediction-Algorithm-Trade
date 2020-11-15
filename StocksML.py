@@ -1,4 +1,5 @@
 
+import flask
 import math 
 import pandas as pd
 import pandas_datareader as web
@@ -93,3 +94,16 @@ html = 'Some html head' + '<img src=\'data:image/png;base64,{}\'>'.format(encode
 with open('index.html','w') as f:
     f.write(html)
 #valid
+
+
+
+
+app = flask.Flask(__name__)
+app.config["DEBUG"] = True
+
+
+@app.route('/', methods=['GET'])
+def home():
+    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+
+app.run()
