@@ -77,7 +77,7 @@ rmse = np.sqrt(np.mean( predictions - y_test)**2 )
 train = data[:training_data_len]
 valid = data[training_data_len:]
 valid['Predictions'] = predictions
-fig = plt.figure(figsize =(16,8))
+plt.figure(figsize =(16,8))
 plt.title('Model')
 plt.xlabel('Data' , fontsize=12)
 plt.ylabel('close price' , fontsize=12)
@@ -85,14 +85,7 @@ plt.plot(train['Close'])
 plt.plot(valid[['Close', 'Predictions']])
 
 
-tmpfile = BytesIO()
-fig.savefig(tmpfile, format='png')
-encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-
-html = 'Some html head' + '<img src=\'data:image/png;base64,{}\'>'.format(encoded) + 'Some more html'
-
-with open('index.html','w') as f:
-    f.write(html)
+ 
 #valid
 
 
@@ -104,6 +97,6 @@ app.config["DEBUG"] = True
 
 @app.route('/', methods=['GET'])
 def home():
-    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+    return train['Close']
 
 app.run()
