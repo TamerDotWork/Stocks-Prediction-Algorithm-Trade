@@ -11,15 +11,15 @@ import matplotlib.pyplot as plt
 plt.style.use('fivethirtyeight')
 
 NSDQ = web.DataReader('^IXIC', data_source='yahoo', start='1973-01-01' ,end='2020-11-10')
-NSDQ
+#NSDQ
 
-plt.figure(figsize=(20.5,6.5))
-plt.plot(NSDQ['Close'] , label = 'NASDAQ' , linewidth=.5)
-plt.title('nsdq index')
-plt.xlabel('years')
-plt.ylabel('price')
-plt.legend(loc='upper left')
-plt.show
+#plt.figure(figsize=(20.5,6.5))
+#plt.plot(NSDQ['Close'] , label = 'NASDAQ' , linewidth=.5)
+#plt.title('nsdq index')
+#plt.xlabel('years')
+#plt.ylabel('price')
+#plt.legend(loc='upper left')
+#plt.show
 
 data = NSDQ.filter(['Close'])
 dataset = data.values
@@ -29,7 +29,7 @@ training_data_len
 scaler = MinMaxScaler(feature_range=(0,1))
 scaled_data = scaler.fit_transform(dataset)
 
-scaled_data
+#scaled_data
 
 train_data = scaled_data[0:training_data_len, :]
 x_train = []
@@ -71,16 +71,25 @@ predictions = model.predict(x_test)
 predictions = scaler.inverse_transform(predictions)
 
 rmse = np.sqrt(np.mean( predictions - y_test)**2 )
-rmse
+#rmse
 
 train = data[:training_data_len]
 valid = data[training_data_len:]
 valid['Predictions'] = predictions
-plt.figure(figsize =(16,8))
+fig = plt.figure(figsize =(16,8))
 plt.title('Model')
 plt.xlabel('Data' , fontsize=12)
 plt.ylabel('close price' , fontsize=12)
 plt.plot(train['Close'])
 plt.plot(valid[['Close', 'Predictions']])
 
-valid
+
+tmpfile = BytesIO()
+fig.savefig(tmpfile, format='png')
+encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+
+html = 'Some html head' + '<img src=\'data:image/png;base64,{}\'>'.format(encoded) + 'Some more html'
+
+with open('index.html','w') as f:
+    f.write(html)
+#valid
